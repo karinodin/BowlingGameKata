@@ -7,8 +7,8 @@ namespace BowlingGameTest
     public class BowlingGameTest
     {
         private Game _game;
-        
-        [TestInitialize]
+
+            [TestInitialize]
         public void BowlingGameTestFixture()
         {
             _game = new Game();

@@ -21,34 +21,41 @@ namespace BowlingGame
         public int Score()
         {
             var totalScore = 0;
-            var rollsIndex = 0;
+            var index = 0;
             
-            for (var i = 0; i < 10; i++)
+            for (var frame = 0; frame < 10; frame++)
             {
-                var frameScore = Rolls[rollsIndex] + Rolls[rollsIndex + 1];
-                var scoreToAdd = frameScore;
+                var frameScore = Rolls[index] + Rolls[index + 1];
 
-                if (Rolls[rollsIndex] == 10) // strike
+                if (Strike(Rolls[index]))
                 {
-                    // add next two rolls
-                    scoreToAdd = 10 + Rolls[rollsIndex + 1] + Rolls[rollsIndex + 2];
-                    rollsIndex++;
+                    totalScore += 10 + Rolls[index + 1] + Rolls[index + 2];
+                    index++;
                 }
-                else if (frameScore == 10 && Rolls[rollsIndex] != 10) // spare
+                else if (Spare(frameScore, Rolls[index]))
                 {
-                    // add next roll
-                    scoreToAdd = 10 + Rolls[rollsIndex + 2];
-                    rollsIndex +=2;
+                    totalScore += 10 + Rolls[index + 2];
+                    index +=2;
                 }
                 else
                 {
-                    rollsIndex +=2;
+                    totalScore += frameScore;
+                    index +=2;
                 }
-                totalScore += scoreToAdd;
-                FrameScore[i] = totalScore;
+                FrameScore[frame] = totalScore;
             }
 
             return totalScore;
+        }
+
+        private bool Spare(int frameScore, int roll)
+        {
+            return frameScore == 10 && roll != 10;
+        }
+        
+        private bool Strike(int roll)
+        {
+            return roll == 10;
         }
     }
 }
